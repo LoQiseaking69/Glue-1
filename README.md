@@ -1,4 +1,5 @@
 # GLUE: Genetic Language for Unsupervised Evolution
+[seph writing his soul](https://github.com/LoQiseaking69/Glue/blob/main/SephsLang.PNG)
 
 ## Overview
 GLUE is a specialized programming language designed to serve as the foundational framework for integrating genetic algorithms with deep learning in robotics. This language aims to be the core component, the 'glue' that binds together the evolutionary algorithms and machine learning models, facilitating unsupervised learning and continuous adaptation in robotic systems.
