@@ -1,8 +1,8 @@
 use regex::Regex;
 use std::collections::HashMap;
+use lazy_static::lazy_static;
 
-// Keywords and symbols
-lazy_static::lazy_static! {
+lazy_static! {
     static ref KEYWORDS: HashMap<&'static str, &'static str> = [
         ("VALKYRIE", "VALKYRIE"),
         ("ENIGMA", "ENIGMA"),
@@ -15,10 +15,12 @@ lazy_static::lazy_static! {
         ("SCARAB", "SCARAB"),    // Robotics-related keyword
         ("ANKH", "ANKH"),        // Robotics-related keyword
         ("NECRO", "NECRO"),      // Robotics-related keyword
-    ].iter().cloned().collect();
+    ]
+    .iter()
+    .cloned()
+    .collect();
 }
 
-// Token definitions
 #[derive(Debug)]
 enum Token {
     RUNE(String),
@@ -45,7 +47,7 @@ enum Token {
     LIBRARY_ACCESS,
     MODULE_IMPORT,
     COMMENT,
-    ROBOTICS_KEYWORD,  // Token for robotics-related keywords
+    ROBOTICS_KEYWORD, // Token for robotics-related keywords
 }
 
 // Rust lexer implementation
@@ -73,7 +75,7 @@ fn lexer(input: &str) -> Vec<Token> {
     let library_access_regex = Regex::new(r"\.").unwrap();
     let module_import_regex = Regex::new(r"ᛗᚢᛞᚨᛚ").unwrap();  // Norse rune for "mudal"
     let comment_regex = Regex::new(r"#.*").unwrap();
-    let rune_regex = Regex::new(r"[ᚠ-ᛟ]+").unwrap();  // Norse runes
+    let rune_regex = Regex::new(r"\[.*?\]").unwrap();  // Updated regex for runes
     let egyptian_keyword_regex = Regex::new(r"\b(?:VALKYRIE|ENIGMA|MJOLNIR|OBSIDIAN|QUANTUM|AETHER|CIPHER)\b").unwrap();
     let identifier_regex = Regex::new(r"[a-zA-Z_][a-zA-Z_0-9]*").unwrap();
     let number_regex = Regex::new(r"\d+").unwrap();
