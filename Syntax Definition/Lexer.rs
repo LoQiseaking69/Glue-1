@@ -1,124 +1,50 @@
+// Import regex and other necessary modules
 use regex::Regex;
 use std::collections::HashMap;
-use lazy_static::lazy_static;
 
-lazy_static! {
-    static ref KEYWORDS: HashMap<&'static str, &'static str> = [
-        ("VALKYRIE", "VALKYRIE"),   // Robotics-related keyword
-        ("ENIGMA", "ENIGMA"),       // Robotics-related keyword
-        ("MJOLNIR", "MJOLNIR"),     // Robotics-related keyword
-        ("OBSIDIAN", "OBSIDIAN"),   // Robotics-related keyword
-        ("QUANTUM", "QUANTUM"),     // Robotics-related keyword
-        ("AETHER", "AETHER"),       // Robotics-related keyword
-        ("CIPHER", "CIPHER"),       // Robotics-related keyword
-        ("PHARAOH", "PHARAOH"),     // Robotics-related keyword
-        ("SCARAB", "SCARAB"),       // Robotics-related keyword
-        ("ANKH", "ANKH"),           // Robotics-related keyword
-        ("NECRO", "NECRO"),         // Robotics-related keyword
-    ]
-    .iter()
-    .cloned()
-    .collect();
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+enum TokenType {
+    Number,
+    Operator,
+    AlgebraicFunction,
+    // Other token types from the original framework and Hehner's Algebra
 }
 
-#[derive(Debug)]
-enum Token {
-    Rune(String),
-    RoboticsKeyword(String),
-    Identifier(String),
-    Number(i32),
-    Assign,
-    If,
-    Else,
-    While,
-    LParen,
-    RParen,
-    Colon,
-    Comma,
-    Plus,
-    Minus,
-    Times,
-    Divide,
-    Power,
-    And,
-    Or,
-    Not,
-    BitwiseAnd,
-    LibraryAccess,
-    ModuleImport,
-    Comment,
+#[derive(Debug, Clone)]
+struct Token {
+    token_type: TokenType,
+    value: String,
 }
 
-fn lexer(input: &str) -> Vec<Token> {
-    // Define regular expressions
-    let regex_map = [
-        (r"=", Token::Assign),
-        (r"HORUS", Token::If),
-        (r"PYRAMID", Token::Else),
-        (r"ᚹᚨᚱᛖᛋ", Token::While),  // Norse rune for "while"
-        (r"\(", Token::LParen),
-        (r"\)", Token::RParen),
-        (r":", Token::Colon),
-        (r",", Token::Comma),
-        (r"\+", Token::Plus),
-        (r"-", Token::Minus),
-        (r"\*", Token::Times),
-        (r"/", Token::Divide),
-        (r"\*\*", Token::Power),
-        (r"ANKH", Token::And),
-        (r"NECRO", Token::Or),
-        (r"ᚾᚳᚱ", Token::Not),  // Norse rune for "not"
-        (r"&", Token::BitwiseAnd),
-        (r"\.", Token::LibraryAccess),
-        (r"ᛗᚢᛞᚨᛚ", Token::ModuleImport),  // Norse rune for "module"
-        (r"#.*", Token::Comment),
-        (r"\[.*?\]", Token::Rune),
-        (r"\b(?:VALKYRIE|ENIGMA|MJOLNIR|OBSIDIAN|QUANTUM|AETHER|CIPHER)\b", Token::RoboticsKeyword),
-        (r"[a-zA-Z_][a-zA-Z_0-9]*", Token::Identifier),
-        (r"\d+", Token::Number),
-    ];
+fn tokenize(code: &str) -> Vec<Token> {
+    // Sophisticated set of regex patterns based on GLUE's syntax and Hehner's Algebra
+    let token_patterns = HashMap::from([
+        (TokenType::Number, Regex::new(r"\\b\\d+(\\.\\d+)?\\b").unwrap()),
+        (TokenType::Operator, Regex::new(r"[\\+\\-\\*/]").unwrap()),
+        (TokenType::AlgebraicFunction, Regex::new(r"specific_pattern_for_algebraic_function").unwrap()),
+        // Other patterns from the original framework
+    ]);
 
     let mut tokens = Vec::new();
-
-    for line in input.lines() {
-        for (pattern, token) in regex_map.iter() {
-            let regex = Regex::new(pattern).unwrap();
-            if let Some(captures) = regex.captures(line) {
-                match token {
-                    Token::Number(_) => {
-                        if let Ok(num) = captures[0].parse::<i32>() {
-                            tokens.push(Token::Number(num));
-                        }
-                    },
-                    Token::Rune(_) | Token::RoboticsKeyword(_) | Token::Identifier(_) => {
-                        tokens.push(token.clone(captures[0].to_string()));
-                    },
-                    _ => tokens.push(token.clone()),
-                }
-            }
+    for (token_type, pattern) in &token_patterns {
+        for cap in pattern.captures_iter(code) {
+            tokens.push(Token {
+                token_type: token_type.clone(),
+                value: cap[0].to_string(),
+            });
         }
     }
 
+    tokens.sort_by_key(|token| token.value.len()); // Sorting logic if needed
     tokens
 }
 
 fn main() {
-    let code = r#"
-VALKYRIE x = 5
-HORUS if x > 0:
-    ENIGMA y = x + 1
-PYRAMID else:
-    ENIGMA y = x - 1
+    // Example GLUE code for testing
+    let code = "2 + 3 * (4 / 7)"; 
+    let tokens = tokenize(code);
 
-# This is a comment
-
-LIBRARY.ACCESS.some_function()
-
-ᛗᚢᛞᚨᛚ math_operations
-
-PHARAOH robotics_function()
-"#;
-
-    let tokens = lexer(code);
-    println!("{:?}", tokens);
+    for token in tokens {
+        println!("{:?}: '{}'", token.token_type, token.value);
+    }
 }
