@@ -1,13 +1,13 @@
 use inkwell::{context::Context, module::Module, builder::Builder, values::{FunctionValue, BasicValueEnum}};
-// Additional imports for LLVM bindings and other necessary components
+// Import additional LLVM components as needed
 
-// Assuming ASTNode, TokenType, and Operator from the Parser script are available
+// Assuming ASTNode, TokenType, Operator, and HehnerOperator from the Parser script are available
 
 struct Compiler<'ctx> {
     context: &'ctx Context,
     module: Module<'ctx>,
     builder: Builder<'ctx>,
-    // Other necessary fields for LLVM compilation
+    // Additional fields for LLVM compilation
 }
 
 impl<'ctx> Compiler<'ctx> {
@@ -18,38 +18,45 @@ impl<'ctx> Compiler<'ctx> {
     }
 
     fn compile(&self, ast: &ASTNode) -> Result<FunctionValue<'ctx>, String> {
-        // Logic to compile AST to LLVM IR
+        // Main entry point for AST compilation
         match ast {
             ASTNode::Number(num) => self.compile_number(*num),
+            ASTNode::Rune(rune) => self.compile_rune(rune),
             ASTNode::BinaryOp(left, op, right) => self.compile_binary_op(left, op, right),
-            // Other AST nodes
+            // Add logic for other AST node types
+            // ...
         }
-
-        // Additional compilation logic integrating with original framework
     }
 
     fn compile_number(&self, value: f64) -> Result<FunctionValue<'ctx>, String> {
-        // Implementation for compiling a number to LLVM IR
+        // Logic to convert a GLUE number into LLVM IR
+        // ...
+    }
+
+    fn compile_rune(&self, rune: &String) -> Result<FunctionValue<'ctx>, String> {
+        // Logic to convert a Norse rune expression into LLVM IR
+        // ...
     }
 
     fn compile_binary_op(&self, left: &ASTNode, op: &Operator, right: &ASTNode) -> Result<FunctionValue<'ctx>, String> {
-        // Implementation for compiling a binary operation to LLVM IR
+        // Handle binary operations in GLUE's syntax and convert to LLVM IR
+        // ...
     }
 
-    // Other methods for compiling different AST node types
+    // Implement additional methods for compiling different AST node types to LLVM IR
+    // ...
 }
 
 fn main() {
     let context = Context::create();
     let compiler = Compiler::new(&context);
 
-    // Example: Compile AST from the Parser
-    // This would be replaced with actual AST generated from GLUE source code
-    let ast = /* ... */;
+    // Example usage to compile AST from the Parser
+    let ast = /* Actual AST from GLUE source code */;
 
     match compiler.compile(&ast) {
         Ok(llvm_ir) => {
-            // The LLVM IR can be further processed, executed, or saved
+            // Handle the LLVM IR output
         },
         Err(e) => eprintln!("Compilation error: {}", e),
     }
