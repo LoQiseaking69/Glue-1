@@ -1,36 +1,56 @@
-use std::process::Command;
-use anyhow::Result;
+use inkwell::{context::Context, module::Module, builder::Builder, values::{FunctionValue, BasicValueEnum}};
+// Additional imports for LLVM bindings and other necessary components
 
-fn main() -> Result<()> {
-    let source_file = "glue_program.glue"; // Your GLUE source file
-    let output_file = "glue_executable";   // Desired output executable name
+// Assuming ASTNode, TokenType, and Operator from the Parser script are available
 
-    transpile_glue_to_rust(source_file, output_file)?;
-    compile_rust_to_binary(output_file)?;
-    println!("Compilation successful: {}", output_file);
-
-    Ok(())
+struct Compiler<'ctx> {
+    context: &'ctx Context,
+    module: Module<'ctx>,
+    builder: Builder<'ctx>,
+    // Other necessary fields for LLVM compilation
 }
 
-fn transpile_glue_to_rust(source_file: &str, output_file: &str) -> Result<()> {
-    // Placeholder: Implement the actual transpilation logic from GLUE to Rust
-    println!("Transpiling {} to Rust...", source_file);
-    // Assuming transpilation success
-    Ok(())
-}
-
-fn compile_rust_to_binary(output_file: &str) -> Result<()> {
-    let rustc_output = Command::new("rustc")
-        .arg(format!("{}.rs", output_file)) // Assuming the Rust file is named after the output
-        .arg("-o")
-        .arg(output_file)
-        // Add any additional flags or configurations as needed
-        .output()?;
-
-    if !rustc_output.status.success() {
-        anyhow::bail!("Failed to compile Rust file: {}", String::from_utf8_lossy(&rustc_output.stderr));
+impl<'ctx> Compiler<'ctx> {
+    fn new(context: &'ctx Context) -> Self {
+        let module = context.create_module("glue_module");
+        let builder = context.create_builder();
+        Compiler { context, module, builder }
     }
 
-    println!("Rust file compiled to {}", output_file);
-    Ok(())
+    fn compile(&self, ast: &ASTNode) -> Result<FunctionValue<'ctx>, String> {
+        // Logic to compile AST to LLVM IR
+        match ast {
+            ASTNode::Number(num) => self.compile_number(*num),
+            ASTNode::BinaryOp(left, op, right) => self.compile_binary_op(left, op, right),
+            // Other AST nodes
+        }
+
+        // Additional compilation logic integrating with original framework
+    }
+
+    fn compile_number(&self, value: f64) -> Result<FunctionValue<'ctx>, String> {
+        // Implementation for compiling a number to LLVM IR
+    }
+
+    fn compile_binary_op(&self, left: &ASTNode, op: &Operator, right: &ASTNode) -> Result<FunctionValue<'ctx>, String> {
+        // Implementation for compiling a binary operation to LLVM IR
+    }
+
+    // Other methods for compiling different AST node types
+}
+
+fn main() {
+    let context = Context::create();
+    let compiler = Compiler::new(&context);
+
+    // Example: Compile AST from the Parser
+    // This would be replaced with actual AST generated from GLUE source code
+    let ast = /* ... */;
+
+    match compiler.compile(&ast) {
+        Ok(llvm_ir) => {
+            // The LLVM IR can be further processed, executed, or saved
+        },
+        Err(e) => eprintln!("Compilation error: {}", e),
+    }
 }
