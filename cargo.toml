@@ -2,7 +2,7 @@
 name = "glue_language"
 version = "0.1.0"
 edition = "2021"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Ant, O. Greene <Reel0112358.13@proton.me>"]
 description = "GLUE: Genetic Language for Unsupervised Evolution in Robotics"
 repository = "https://github.com/YourUsername/glue_language"
 license = "MIT OR Apache-2.0"
