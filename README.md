@@ -3,26 +3,39 @@
 ![GLUE Language Concept](https://github.com/LoQiseaking69/Glue/blob/main/SephsLang.PNG)
 
 ## Overview
-GLUE is an advanced, Rust-based programming language designed specifically for robotics. It integrates genetic algorithms and deep learning to advance unsupervised evolutionary computation in robotic systems. GLUE functions as a runtime environment on robotic devices, synergizing evolutionary algorithms with machine learning for adaptive problem-solving in robotics.
+GLUE, a Rust-based programming language, uniquely combines Norse runes and Hehner's Unified Algebra notation, targeting robotics. Its syntax is a harmonious blend of Julia and Scala aesthetics, optimized for unsupervised evolutionary computation in robotic systems.
 
-**Innovative Integration**: GLUE uniquely integrates Hehner's Unified Algebra, enhancing its adaptive optimization and problem-solving capabilities in complex robotic applications. This integration fosters more efficient and expressive programming paradigms in robotics.
+### Key Syntax Features
+- **Norse Runes Integration**: Utilizes ancient runes for concise, powerful expressions.
+- **Hehner's Algebra Notation**: Adopts algebraic symbols for elegant mathematical operations.
+- **Julia & Scala Inspired Syntax**: Offers a familiar yet innovative coding experience.
 
 ## Core Components
 
-### Comprehensive Standard Library
-GLUE's standard library supports a wide range of functionalities in robotics, genetic algorithms, and deep learning. This robust collection of pre-built modules and functions accelerates development in robotic programming.
+### Standard Library
+Robust library tailored for robotics, genetics, and deep learning, with intuitive Norse rune-based syntax:
+```julia
+rune ᚠᚢᚦ: SensorData
+ᚠᚢᚦ(ᚱᛟᛒᛟᛏ) -> ᚠᚢᚦᚲᚢᚱᚱᛖᚾᛏ
+```
 
-### Sophisticated Compiler/Interpreter
-The compiler/interpreter lies at GLUE's core, accurately translating its high-level code into executable machine instructions. It leverages LLVM for efficient Intermediate Representation (IR) generation, enhancing lexical, syntactic, and semantic analyses, and optimized code generation.
+### Compiler/Interpreter
+Efficiently compiles GLUE code, blending runes and algebraic symbols into executable machine code:
+```scala
+trait GlueCompiler {
+  def ᚱᚢᚾᛖᚲᚢᛗᛈᛁᛚᛖ(sourceCode: String): Executable
+}
+```
 
-### Dynamic Runtime Environment
-The runtime environment is optimized for executing GLUE programs on robotic hardware. It efficiently manages resources, maintains hardware interaction, and guarantees real-time performance, catering to the demands of continuous learning algorithms and complex robotic operations.
+### Runtime Environment
+Optimized for real-time robotic operations, interpreting rune-based commands with precision:
+```rust
+fn execute_rune_code(code: RuneCode) {
+    match code {
+        Rune::ᚠᚢᚦ => execute_sensor_operations(),
+        // ...
+    }
+}
+```
 
-GLUE is a paradigm shift in autonomous robotics, leveraging Hehner's Unified Algebra principles for machines capable of autonomous learning, adaptation, and evolution.
-
-## Recent Enhancements
-- Integration of LLVM for advanced IR generation in the compiler.
-- Upgraded lexer and parser for sophisticated handling of GLUE's unique syntax and Hehner's Algebra.
-- Enhanced standard library to include more modules and functions for advanced robotic applications.
-
-GLUE is evolving continually to push the boundaries of autonomous robotics, embodying the essence of innovation in the field.
+GLUE is a revolutionary step in autonomous robotics, bringing ancient wisdom and modern computation into a seamless blend. Its unique syntax and powerful standard library are at the forefront of enabling robots to learn, adapt, and evolve independently.
