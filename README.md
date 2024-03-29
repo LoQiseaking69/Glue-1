@@ -43,14 +43,6 @@ Enhanced lexical analyzer for GLUE, including support for runes, algebraic funct
 ```rust
 use regex::Regex;
 use std::collections::HashMap;
-
-// Token and Lexer definitions...
-// [Insert the enhanced lexer code here]
-
-fn main() {
-    // Example GLUE code
-    // [Insert the GLUE code snippet here]
-}
 ```
 
 GLUE is a revolutionary step in autonomous robotics, bringing ancient wisdom and modern computation into a seamless blend. Its unique syntax and powerful standard library are at the forefront of enabling robots to learn, adapt, and evolve independently.
