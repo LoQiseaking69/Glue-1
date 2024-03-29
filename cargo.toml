@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Ant, O. Greene <Reel0112358.13@proton.me>"]
 description = "GLUE: Genetic Language for Unsupervised Evolution in Robotics"
-repository = "https://github.com/YourUsername/glue_language"
-license = "MIT OR Apache-2.0"
+repository = "https://github.com/HermiTech-LLC/Glue"
+license = "GNU Affero v3"
 
 [dependencies]
 # Core dependencies
