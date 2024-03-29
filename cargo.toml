@@ -14,7 +14,7 @@ anyhow = "1.0"
 lazy_static = "1.4"
 
 # LLVM for IR generation
-inkwell = "0.1" # LLVM bindings for Rust
+inkwell = { version = "0.1", features = ["llvm11-0"] } # Update based on LLVM version
 
 # Machine learning and deep learning
 tch = "0.4" # Rust bindings to PyTorch
@@ -25,7 +25,7 @@ genetic-algorithm = "0.2"
 
 # Robotics-related dependencies
 robotics = "0.3"
-rosc = "0.6" # For ROS (Robot Operating System) integration, if applicable
+rosc = "0.6" # For ROS (Robot Operating System) integration
 
 # Async runtime for concurrency
 tokio = { version = "1", features = ["full"] }
@@ -44,12 +44,10 @@ hehners_unified_algebra = "0.1"
 
 [features]
 default = []
-# Define custom features for conditional compilation
+# Add custom features for conditional compilation if needed
 
 [workspace]
 # List other crates in your workspace if part of a larger project
 
-# Optional: [bin] section for multiple binary targets
-
-# Optional: [build-dependencies], [dev-dependencies], and [target.'cfg(...)'.dependencies]
-# for build scripts, development tools, and platform-specific dependencies
+# Optional sections: [bin], [build-dependencies], [dev-dependencies], [target.'cfg(...)'.dependencies]
+# can be added for multiple binary targets, build scripts, dev tools, and platform-specific dependencies
