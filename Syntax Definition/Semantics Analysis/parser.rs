@@ -11,22 +11,20 @@ enum ASTNode {
     FunctionCall(String, Vec<ASTNode>),
     AlgebraicFunction(String, Vec<ASTNode>),
     HehnerAlgebra(Box<ASTNode>, HehnerOperator, Box<ASTNode>),
+    StringLiteral(String),
+    Comment(String),
     Identifier(String),
-    // Potentially more nodes based on GLUE's specific requirements
+    // Extend with more nodes as required by GLUE
 }
 
 enum Operator {
-    Add,
-    Subtract,
-    Multiply,
-    Divide,
-    // Extend this to include custom operators in GLUE
+    Custom(String), // Replaces standard operators with custom GLUE operators
+    // More custom operators as needed...
 }
 
 enum HehnerOperator {
-    // Custom operators for Hehner's Algebra, define as needed
-    CustomOp1,  // Placeholder for a custom operation
-    // More operators...
+    CustomOp1,  // Placeholder for custom Hehner operations
+    // Additional custom operators...
 }
 
 fn parse(tokens: &[Token]) -> Result<ASTNode, String> {
@@ -36,10 +34,11 @@ fn parse(tokens: &[Token]) -> Result<ASTNode, String> {
 
 fn parse_expression(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
     // Implement logic for parsing complex expressions and handling GLUE-specific syntax
+    // This should include handling for unique operators, runes, and algebraic functions
 }
 
 fn parse_term(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
-    // Implementation for parsing terms including runes, algebraic functions, etc.
+    // Implementation for parsing terms, including runes, algebraic functions, Hehner symbols, etc.
 }
 
 fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
@@ -47,8 +46,10 @@ fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
         match token {
             Token { token_type: TokenType::Number, value, .. } => Ok(ASTNode::Number(value.parse().unwrap())),
             Token { token_type: TokenType::Rune, value, .. } => Ok(ASTNode::Rune(value.clone())),
+            Token { token_type: TokenType::String, value, .. } => Ok(ASTNode::StringLiteral(value.clone())),
+            Token { token_type: TokenType::Comment, value, .. } => Ok(ASTNode::Comment(value.clone())),
             Token { token_type: TokenType::Identifier, value, .. } => Ok(ASTNode::Identifier(value.clone())),
-            // Handle additional cases like AlgebraicFunction, HehnerSymbol
+            // Add additional cases for handling other GLUE-specific elements
             _ => Err("Unexpected token".to_string()),
         }
     } else {
@@ -58,15 +59,14 @@ fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
 
 fn map_operator(op: &str) -> Result<Operator, String> {
     match op {
-        "+" => Ok(Operator::Add),
-        "-" => Ok(Operator::Subtract),
-        "*" => Ok(Operator::Multiply),
-        "/" => Ok(Operator::Divide),
-        // Include mapping for custom GLUE operators
+        "⊕" => Ok(Operator::Custom("Add".to_string())),
+        "⊗" => Ok(Operator::Custom("Multiply".to_string())),
+        // Map other custom GLUE operators here
         _ => Err(format!("Unknown operator: {}", op)),
     }
 }
 
 fn main() {
-    // Test the parser with a sample set of tokens
+    // Test the parser with a sample set of tokens representing GLUE code
+    // This test should include tokens for custom operators, runes, and other GLUE-specific syntax
 }
