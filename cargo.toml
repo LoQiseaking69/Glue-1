@@ -1,5 +1,5 @@
 [package]
-name = "glue_language"
+name = "GLUE"
 version = "0.1.0"
 edition = "2021"
 authors = ["Ant, O. Greene <Reel0112358.13@proton.me>"]
