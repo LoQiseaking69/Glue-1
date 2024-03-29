@@ -1,3 +1,6 @@
+use std::iter::Peekable;
+use std::slice::Iter;
+
 // Assuming Token and TokenType are defined as per the lexer
 
 #[derive(Debug)]
@@ -67,3 +70,5 @@ fn main() {
     // Test the parser with a sample set of tokens representing GLUE code
     // This test should include tokens for custom operators, runes, and other GLUE-specific syntax
 }
+
+// You can place Token and TokenType definitions here
