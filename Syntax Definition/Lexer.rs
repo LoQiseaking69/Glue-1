@@ -4,14 +4,14 @@ use std::collections::HashMap;
 #[derive(Debug, PartialEq, Eq, Hash, Clone)]
 enum TokenType {
     Number,
-    UniqueOperator,  // For custom operators like ⊕, ⊗, etc.
-    Rune,            // For Norse runes
-    AlgebraicFunction,
-    HehnerSymbol,    // For Hehner's algebra symbols
-    Identifier,      // Variable and function names
-    Keyword,         // GLUE-specific keywords
-    String,          // For string literals
-    Comment,         // For comments
+    UniqueOperator,        // Custom operators like ⊕, ⊗, etc.
+    Rune,                  // Norse runes
+    AlgebraicFunction,     // Algebraic functions
+    HehnerSymbol,          // Hehner's algebra symbols
+    Identifier,            // Variable and function names
+    Keyword,               // GLUE-specific keywords
+    String,                // String literals
+    Comment,               // Comments
     // Extend with other token types as needed
 }
 
@@ -31,13 +31,13 @@ impl Lexer {
         let mut token_patterns = HashMap::new();
         token_patterns.insert(TokenType::Number, Regex::new(r"\b\d+(\.\d+)?\b").unwrap());
         token_patterns.insert(TokenType::UniqueOperator, Regex::new(r"[⊕⊗≺≡↬⧉⊛⊖]").unwrap());
-        token_patterns.insert(TokenType::Rune, Regex::new(r"[ᚠᚢᚦᚨ]+").unwrap());
-        token_patterns.insert(TokenType::AlgebraicFunction, Regex::new(r"\b\w+\(\)").unwrap());
+        token_patterns.insert(TokenType::Rune, Regex::new(r"\b[ᚠᚢᚦᚨᚱᚷᚹᚺᚻᛁᛊᛏᛖᛗᛚᛜᛞᛟᛣᛤᛥ]+").unwrap());
+        token_patterns.insert(TokenType::AlgebraicFunction, Regex::new(r"\b[a-zA-Z_][a-zA-Z0-9_]*\(\)").unwrap());
         token_patterns.insert(TokenType::HehnerSymbol, Regex::new(r"\bHehner_[a-zA-Z]+\b").unwrap());
         token_patterns.insert(TokenType::Identifier, Regex::new(r"\b[a-zA-Z_][a-zA-Z0-9_]*\b").unwrap());
-        token_patterns.insert(TokenType::Keyword, Regex::new(r"\b(keyword1|keyword2)\b").unwrap());
-        token_patterns.insert(TokenType::String, Regex::new(r"\".*?\"").unwrap());
-        token_patterns.insert(TokenType::Comment, Regex::new(r"//.*?$").unwrap());
+        token_patterns.insert(TokenType::Keyword, Regex::new(r"\b(keyword1|keyword2|channelFehu|maintainRuneBalance)\b").unwrap());
+        token_patterns.insert(TokenType::String, Regex::new(r#""[^"]*""#).unwrap());
+        token_patterns.insert(TokenType::Comment, Regex::new(r"//.*").unwrap());
 
         Lexer { token_patterns }
     }
@@ -66,6 +66,7 @@ fn main() {
     // Example of Glue code
     ᚠ2 ⊕ x ⊗ ᚢ(4 ⊖ 7) ✵ if ᚠ ≡ ᚢ { channelFehu() } ↬ { maintainRuneBalance() }
     let greeting = "Hello, ᚠᚢᚦ World!"
+    ᚨᚱᚷ(ᛏᛖᛗᛈᛚᚱᚢᚾᛖ) -> ᚠᚢᚦᚲᚢᚱᚱᛖᚾᛏ
     "#; 
     let tokens = lexer.tokenize(code);
 
