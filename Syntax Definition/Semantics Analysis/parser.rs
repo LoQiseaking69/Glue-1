@@ -1,110 +1,101 @@
-use nom::{
-    branch::alt,
-    bytes::complete::tag,
-    character::complete::{alpha1, alphanumeric1, char, digit1, multispace0, multispace1},
-    combinator::{map, recognize},
-    multi::{many0},
-    sequence::{delimited, pair, tuple},
-    IResult,
-};
+use std::iter::Peekable;
+use std::slice::Iter;
+
+// Assuming the Token and TokenType structs from the Lexer script are available
 
 #[derive(Debug)]
-enum Expr {
-    Assignment(String, Box<Expr>),
-    If(Box<Expr>, Vec<Expr>, Vec<Expr>),
-    Identifier(String),
-    Number(i32),
-    Rune(String),
-    BinOp(Box<Expr>, BinOp, Box<Expr>),
+enum ASTNode {
+    Number(f64),
+    BinaryOp(Box<ASTNode>, Operator, Box<ASTNode>),
+    // More nodes for complex structures in GLUE and algebraic operations
 }
 
-#[derive(Debug)]
-enum BinOp {
+enum Operator {
     Add,
     Subtract,
     Multiply,
     Divide,
+    // Additional operators for Hehner's Algebra
 }
 
-fn parse_identifier(input: &str) -> IResult<&str, Expr> {
-    map(recognize(pair(alpha1, many0(alt((alphanumeric1, char('_')))))),
-        |id: &str| Expr::Identifier(id.to_string()))(input)
+fn parse(tokens: &[Token]) -> Result<ASTNode, String> {
+    let mut iter = tokens.iter().peekable();
+    parse_expression(&mut iter)
 }
 
-fn parse_number(input: &str) -> IResult<&str, Expr> {
-    map(digit1, |n: &str| Expr::Number(n.parse().unwrap()))(input)
+fn parse_expression(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
+    let mut node = parse_term(iter)?;
+
+    while let Some(&&Token { token_type: TokenType::Operator, value: ref op }) = iter.peek() {
+        match op.as_str() {
+            "+" | "-" => {
+                iter.next(); // consume operator
+                let right = parse_term(iter)?;
+                node = ASTNode::BinaryOp(Box::new(node), map_operator(op)?, Box::new(right));
+            }
+            _ => break,
+        }
+    }
+
+    Ok(node)
 }
 
-fn parse_rune(input: &str) -> IResult<&str, Expr> {
-    map(delimited(char('['), recognize(many0(char('.'))), char(']')),
-        |rune: &str| Expr::Rune(rune.to_string()))(input)
+fn parse_term(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
+    let mut node = parse_factor(iter)?;
+
+    while let Some(&&Token { token_type: TokenType::Operator, value: ref op }) = iter.peek() {
+        match op.as_str() {
+            "*" | "/" => {
+                iter.next(); // consume operator
+                let right = parse_factor(iter)?;
+                node = ASTNode::BinaryOp(Box::new(node), map_operator(op)?, Box::new(right));
+            }
+            _ => break,
+        }
+    }
+
+    Ok(node)
 }
 
-fn parse_primary(input: &str) -> IResult<&str, Expr> {
-    alt((
-        parse_identifier,
-        parse_number,
-        parse_rune,
-        delimited(char('('), parse_expr, char(')')),
-    ))(input)
+fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
+    if let Some(token) = iter.next() {
+        match token.token_type {
+            TokenType::Number => Ok(ASTNode::Number(token.value.parse().unwrap())),
+            TokenType::Parenthesis if token.value == "(" => {
+                let node = parse_expression(iter)?;
+                if iter.next().map_or(false, |token| token.value == ")") {
+                    Ok(node)
+                } else {
+                    Err("Missing closing parenthesis".to_string())
+                }
+            }
+            // Additional parsing rules for GLUE-specific syntax and algebraic expressions
+            _ => Err("Unexpected token".to_string()),
+        }
+    } else {
+        Err("Unexpected end of input".to_string())
+    }
 }
 
-fn parse_bin_op(input: &str) -> IResult<&str, BinOp> {
-    alt((
-        map(tag("+"), |_| BinOp::Add),
-        map(tag("-"), |_| BinOp::Subtract),
-        map(tag("*"), |_| BinOp::Multiply),
-        map(tag("/"), |_| BinOp::Divide),
-    ))(input)
-}
-
-fn parse_expr(input: &str) -> IResult<&str, Expr> {
-    let (input, primary) = parse_primary(input)?;
-    many0(tuple((parse_bin_op, parse_primary)))(input)
-        .map(|(next_input, list)| {
-            let expr = list.into_iter().fold(primary, |acc, (op, val)| {
-                Expr::BinOp(Box::new(acc), op, Box::new(val))
-            });
-            (next_input, expr)
-        })
-}
-
-fn parse_if(input: &str) -> IResult<&str, Expr> {
-    let (input, _) = tag("HORUS")(input)?;
-    let (input, condition) = delimited(multispace1, parse_expr, multispace0)(input)?;
-    let (input, if_branch) = many0(parse_statement)(input)?;
-    let (input, _) = tag("PYRAMID")(input)?;
-    let (input, else_branch) = many0(parse_statement)(input)?;
-
-    Ok((input, Expr::If(Box::new(condition), if_branch, else_branch)))
-}
-
-fn parse_assignment(input: &str) -> IResult<&str, Expr> {
-    let (input, id) = parse_identifier(input)?;
-    let (input, _) = tag("=")(input)?;
-    let (input, expr) = parse_expr(input)?;
-
-    Ok((input, Expr::Assignment(id.get_identifier(), Box::new(expr))))
-}
-
-fn parse_statement(input: &str) -> IResult<&str, Expr> {
-    alt((
-        parse_assignment,
-        parse_if,
-        parse_expr,
-    ))(input)
+fn map_operator(op: &str) -> Result<Operator, String> {
+    match op {
+        "+" => Ok(Operator::Add),
+        "-" => Ok(Operator::Subtract),
+        "*" => Ok(Operator::Multiply),
+        "/" => Ok(Operator::Divide),
+        // Additional mapping for GLUE-specific operators
+        _ => Err(format!("Unknown operator: {}", op)),
+    }
 }
 
 fn main() {
-    let code = r#"
-    HORUS x > 0 :
-        VALKYRIE y = x + 1
-    PYRAMID :
-        VALKYRIE y = x - 1
-    "#;
+    // Example for testing the parser
+    let tokens = vec![
+        // Tokens generated by the Lexer (example)
+    ];
 
-    match many0(parse_statement)(code) {
-        Ok((_, statements)) => println!("Parsed Statements: {:?}", statements),
-        Err(err) => println!("Error parsing code: {:?}", err),
+    match parse(&tokens) {
+        Ok(ast) => println!("{:?}", ast),
+        Err(e) => eprintln!("Parser error: {}", e),
     }
 }
