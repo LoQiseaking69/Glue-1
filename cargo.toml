@@ -1,0 +1,53 @@
+[package]
+name = "glue_language"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "GLUE: Genetic Language for Unsupervised Evolution in Robotics"
+repository = "https://github.com/YourUsername/glue_language"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+# Core dependencies
+regex = "1.5"
+anyhow = "1.0"
+lazy_static = "1.4"
+
+# Machine learning and deep learning
+tch = "0.4" # Rust bindings to PyTorch
+tensorflow = "0.17" # Rust bindings for TensorFlow
+
+# Genetic algorithms
+# Placeholder for a genetic algorithm crate
+genetic-algorithm = "0.2"
+
+# Robotics-related dependencies (hypothetical)
+robotics = "0.3"
+rosc = "0.6" # For ROS (Robot Operating System) integration, if applicable
+
+# Async runtime for concurrency
+tokio = { version = "1", features = ["full"] }
+
+# JSON for configuration and serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Mathematical computations
+nalgebra = "0.29" # For linear algebra
+num = "0.4"       # Provides a collection of numeric types and traits
+rug = "1.13"      # For arbitrary-precision arithmetic
+
+# Custom library or bindings for Hehner's unified algebra (hypothetical)
+# hehners_unified_algebra = "0.1"
+
+[features]
+default = []
+# Define custom features for conditional compilation
+
+[workspace]
+# List other crates in your workspace if part of a larger project
+
+# Optional: [bin] section for multiple binary targets
+
+# Optional: [build-dependencies], [dev-dependencies], and [target.'cfg(...)'.dependencies]
+# for build scripts, development tools, and platform-specific dependencies
