@@ -13,15 +13,17 @@ regex = "1.5"
 anyhow = "1.0"
 lazy_static = "1.4"
 
+# LLVM for IR generation
+inkwell = "0.1" # LLVM bindings for Rust
+
 # Machine learning and deep learning
 tch = "0.4" # Rust bindings to PyTorch
 tensorflow = "0.17" # Rust bindings for TensorFlow
 
 # Genetic algorithms
-# Placeholder for a genetic algorithm crate
 genetic-algorithm = "0.2"
 
-# Robotics-related dependencies (hypothetical)
+# Robotics-related dependencies
 robotics = "0.3"
 rosc = "0.6" # For ROS (Robot Operating System) integration, if applicable
 
@@ -38,7 +40,7 @@ num = "0.4"       # Provides a collection of numeric types and traits
 rug = "1.13"      # For arbitrary-precision arithmetic
 
 # Custom library or bindings for Hehner's unified algebra (hypothetical)
-# hehners_unified_algebra = "0.1"
+hehners_unified_algebra = "0.1"
 
 [features]
 default = []
