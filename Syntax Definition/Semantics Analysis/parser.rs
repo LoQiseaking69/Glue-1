@@ -14,17 +14,17 @@ enum ASTNode {
     StringLiteral(String),
     Comment(String),
     Identifier(String),
-    // Extend with more nodes as required by GLUE
+    // More nodes as required by GLUE
 }
 
 enum Operator {
-    Custom(String), // Replaces standard operators with custom GLUE operators
-    // More custom operators as needed...
+    Custom(String), // Custom GLUE operators
+    // Additional custom operators as needed...
 }
 
 enum HehnerOperator {
-    CustomOp1,  // Placeholder for custom Hehner operations
-    // Additional custom operators...
+    CustomOp1, // Placeholder for custom Hehner operations
+    // Other custom operators...
 }
 
 fn parse(tokens: &[Token]) -> Result<ASTNode, String> {
@@ -33,12 +33,14 @@ fn parse(tokens: &[Token]) -> Result<ASTNode, String> {
 }
 
 fn parse_expression(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
-    // Implement logic for parsing complex expressions and handling GLUE-specific syntax
-    // This should include handling for unique operators, runes, and algebraic functions
+    // Logic for parsing complex expressions in GLUE syntax
+    // Including handling unique operators, runes, and algebraic functions
+    // ...
 }
 
 fn parse_term(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
-    // Implementation for parsing terms, including runes, algebraic functions, Hehner symbols, etc.
+    // Logic for parsing terms, including runes, algebraic functions, Hehner symbols, etc.
+    // ...
 }
 
 fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
@@ -49,7 +51,7 @@ fn parse_factor(iter: &mut Peekable<Iter<Token>>) -> Result<ASTNode, String> {
             Token { token_type: TokenType::String, value, .. } => Ok(ASTNode::StringLiteral(value.clone())),
             Token { token_type: TokenType::Comment, value, .. } => Ok(ASTNode::Comment(value.clone())),
             Token { token_type: TokenType::Identifier, value, .. } => Ok(ASTNode::Identifier(value.clone())),
-            // Add additional cases for handling other GLUE-specific elements
+            // Other GLUE-specific elements
             _ => Err("Unexpected token".to_string()),
         }
     } else {
@@ -61,14 +63,13 @@ fn map_operator(op: &str) -> Result<Operator, String> {
     match op {
         "⊕" => Ok(Operator::Custom("Add".to_string())),
         "⊗" => Ok(Operator::Custom("Multiply".to_string())),
-        // Map other custom GLUE operators here
+        // Custom GLUE operators
         _ => Err(format!("Unknown operator: {}", op)),
     }
 }
 
 fn main() {
-    // Test the parser with a sample set of tokens representing GLUE code
-    // This test should include tokens for custom operators, runes, and other GLUE-specific syntax
+    // Test the parser with a sample set of GLUE tokens
+    // Include tokens for custom operators, runes, and other specific syntax
+    // ...
 }
-
-// You can place Token and TokenType definitions here
