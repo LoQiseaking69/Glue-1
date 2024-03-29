@@ -15,8 +15,9 @@ GLUE, a Rust-based programming language, uniquely combines Norse runes and Hehne
 ### Standard Library
 Robust library tailored for robotics, genetics, and deep learning, with intuitive Norse rune-based syntax:
 ```julia
-rune ᚠᚢᚦ: SensorData
-ᚠᚢᚦ(ᚱᛟᛒᛟᛏ) -> ᚠᚢᚦᚲᚢᚱᚱᛖᚾᛏ
+function ᚠᚢᚦ(ᚱᛟᛒᛟᛏ: Robot) -> Signal {
+    ᚱᛁᚴᛁ(ᚱᛟᛒᛟᛏ.ᚠᛖᛚᚷ) ⊕ ᚠᚱᚢᚦ(ᚱᛟᛒᛟᛏ.ᚷᛖᚢᚱ)
+}
 ```
 
 ### Compiler/Interpreter
@@ -24,17 +25,6 @@ Efficiently compiles GLUE code, blending runes and algebraic symbols into execut
 ```scala
 trait GlueCompiler {
   def ᚱᚢᚾᛖᚲᚢᛗᛈᛁᛚᛖ(sourceCode: String): Executable
-}
-```
-
-### Runtime Environment
-Optimized for real-time robotic operations, interpreting rune-based commands with precision:
-```rust
-fn execute_rune_code(code: RuneCode) {
-    match code {
-        Rune::ᚠᚢᚦ => execute_sensor_operations(),
-        // ...
-    }
 }
 ```
 
