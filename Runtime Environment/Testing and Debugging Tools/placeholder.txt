@@ -1,4 +1,11 @@
-This is a placeholder for the Testing and Debugging Tools component.
+'''
+This is a placeholder for 
+the Testing and 
+Debugging Tools component.
+'''
+
+# temporary notepad for this lib.
+
 '''
 The first debugging 
 and development tool
