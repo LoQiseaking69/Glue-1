@@ -8,46 +8,36 @@ repository = "https://github.com/HermiTech-LLC/Glue"
 license = "GNU Affero v3"
 
 [dependencies]
-# Core dependencies
-regex = "1.6"            # Updated to a newer version for better performance and features
+regex = { version = "1.6", features = ["unicode", "perf"] }  # Enhanced for unicode support and performance
 anyhow = "1.0"
 lazy_static = "1.4"
-
-# LLVM for IR generation
-inkwell = { version = "0.2", features = ["llvm12-0"] } # Updated to a newer version matching LLVM 12
-
-# Machine learning and deep learning
-tch = "0.5"              # Updated to a newer version
-tensorflow = "0.18"      # Updated to a newer version
-
-# Genetic algorithms
-genetic-algorithm = "0.3" # Updated to a newer version
-
-# Robotics-related dependencies
-robotics = "0.4"          # Updated to a newer version
-rosc = "0.7"              # Updated for better ROS integration
-
-# Async runtime for concurrency
-tokio = { version = "1.10", features = ["full"] } # Updated to a newer version
-
-# JSON for configuration and serialization
+inkwell = { version = "0.2", features = ["llvm12-0"] }  # LLVM support
+tch = "0.5"                 # Torch bindings for Rust
+tensorflow = "0.18"         # TensorFlow bindings for Rust
+genetic-algorithm = "0.3"   # For implementing genetic algorithms
+robotics = "0.4"            # For robotics functionality
+rosc = "0.7"                # ROS integration
+tokio = { version = "1.10", features = ["full"] }  # Async runtime
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0.82"    # Updated to a newer version
+serde_json = "1.0.82"
+nalgebra = "0.30"           # For linear algebra
+num = "0.4"                 # For numerical operations
+rug = "1.14"                # For arbitrary precision arithmetic
+hehners_unified_algebra = "0.2"  # Custom library for Hehner algebra
+rayon = "1.5"               # Parallelism framework
 
-# Mathematical computations
-nalgebra = "0.30"        # Updated to a newer version for enhanced linear algebra capabilities
-num = "0.4"              # Kept as is; check if a newer version is available
-rug = "1.14"             # Updated for better arbitrary-precision arithmetic support
-
-# Custom library or bindings for Hehner's unified algebra (hypothetical)
-hehners_unified_algebra = "0.2" # Updated; ensure this matches the current version of your custom library
+# Optional dependencies for extended functionality
+[optional-dependencies]
+wasm-bindgen = "0.2"        # For WebAssembly support
+pyo3 = { version = "0.15", features = ["extension-module"] }  # For Python integration
 
 [features]
 default = []
-# Define custom features for conditional compilation here, if needed
+simd = ["nalgebra/simd", "rayon/simd"]  # SIMD optimizations
+wasm = ["wasm-bindgen"]     # WebAssembly feature
+python = ["pyo3"]           # Python integration
 
 [workspace]
-# Include paths to other crates if this is part of a multi-crate project
+# paths to other crates in a multi-crate project
 
-# Optional sections: [bin], [build-dependencies], [dev-dependencies], [target.'cfg(...)'.dependencies]
-# can be added as per project requirements
+# Custom build scripts and additional settings can be added here
