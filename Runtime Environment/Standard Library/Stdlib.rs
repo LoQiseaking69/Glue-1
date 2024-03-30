@@ -1,68 +1,57 @@
- // Declare each component as a module
-mod lexer;
-mod parser;
-mod compiler;
-mod stdlib;
-mod runtime;
+pub mod stdlib {
+    use super::{ai_core, robotics_core, evolutionary_core, concurrency, memory_safety, hehner_algebra, GlueLanguageConfig};
+    use std::collections::HashMap;
+    use std::any::Any;
 
-pub use lexer::{Lexer, Token, TokenType};
-pub use parser::{Parser, ASTNode};
-pub use compiler::Compiler;
-pub use stdlib::StdLib;
-pub use runtime::Runtime;
+    // Trait for modules to allow dynamic typing
+    pub trait Module: Any {
+        fn as_any(&self) -> &dyn Any;
+    }
 
-pub struct GlueLanguageConfig {
-    // Configuration options (if any)
-    // ...
-}
+    // Standard Library containing various advanced modules
+    pub struct StdLib {
+        modules: HashMap<String, Box<dyn Module>>,
+    }
 
-pub enum GlueError {
-    LexerError(String),
-    ParserError(String),
-    CompilerError(String),
-    RuntimeError(String),
-    // Other error types as needed
-}
+    impl StdLib {
+        // Constructs a new StdLib with default modules loaded
+        pub fn new(config: GlueLanguageConfig) -> Self {
+            let mut stdlib = StdLib { modules: HashMap::new() };
+            stdlib.load_default_modules(config);
+            stdlib
+        }
 
-pub struct GlueLanguage {
-    lexer: Option<Lexer>,
-    parser: Option<Parser>,
-    compiler: Option<Compiler>,
-    stdlib: StdLib,
-    runtime: Runtime,
-    config: GlueLanguageConfig,
-}
+        // Dynamically loads default modules
+        fn load_default_modules(&mut self, config: GlueLanguageConfig) {
+            self.modules.insert("ai".to_string(), Box::new(ai_core::ArtificialIntelligence::new(&config)));
+            self.modules.insert("robotics".to_string(), Box::new(robotics_core::RoboticController::new(&config)));
+            // ... Other modules ...
+        }
 
-impl GlueLanguage {
-    pub fn new(config: GlueLanguageConfig) -> Self {
-        GlueLanguage {
-            lexer: None,
-            parser: None,
-            compiler: None,
-            stdlib: StdLib::new(config.clone()), // Assuming StdLib can be configured
-            runtime: Runtime::new(config.clone()), // Assuming Runtime can be configured
-            config,
+        // Adds a new module to the StdLib
+        pub fn add_module<T: 'static + Module>(&mut self, name: &str, module: T) {
+            self.modules.insert(name.to_string(), Box::new(module));
+        }
+
+        // Retrieves a module by name, casting it to the desired type
+        pub fn get_module<T: 'static + Module>(&self, name: &str) -> Option<&T> {
+            self.modules.get(name)?.as_any().downcast_ref::<T>()
+        }
+
+        // Removes a module from the StdLib
+        pub fn remove_module(&mut self, name: &str) {
+            self.modules.remove(name);
         }
     }
-
-    pub fn compile_code(&mut self, code: &str) -> Result<(), GlueError> {
-        let lexer = self.lexer.get_or_insert_with(Lexer::new);
-        let tokens = lexer.tokenize(code).map_err(GlueError::LexerError)?;
-
-        let parser = self.parser.get_or_insert_with(Parser::new);
-        let ast = parser.parse(&tokens).map_err(GlueError::ParserError)?;
-
-        let compiler = self.compiler.get_or_insert_with(Compiler::new);
-        let compiled_code = compiler.compile_ast_node(&ast).map_err(GlueError::CompilerError)?;
-        
-        self.runtime.execute(&compiled_code, &self.stdlib)
-                    .map_err(GlueError::RuntimeError)?;
-
-        Ok(())
-    }
-
-    // Additional methods for configuration, logging, etc.
-    // ...
 }
 
-// Implement additional functionality as needed
+// Implementing the Module trait for all advanced module types
+impl Module for ai_core::ArtificialIntelligence {
+    fn as_any(&self) -> &dyn Any { self }
+}
+
+impl Module for robotics_core::RoboticController {
+    fn as_any(&self) -> &dyn Any { self }
+}
+
+// ... Implement Module trait for other modules ...
