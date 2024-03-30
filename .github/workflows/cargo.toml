@@ -9,45 +9,45 @@ license = "GNU Affero v3"
 
 [dependencies]
 # Core dependencies
-regex = "1.5"
+regex = "1.6"            # Updated to a newer version for better performance and features
 anyhow = "1.0"
 lazy_static = "1.4"
 
 # LLVM for IR generation
-inkwell = { version = "0.1", features = ["llvm11-0"] } # Update based on LLVM version
+inkwell = { version = "0.2", features = ["llvm12-0"] } # Updated to a newer version matching LLVM 12
 
 # Machine learning and deep learning
-tch = "0.4" # Rust bindings to PyTorch
-tensorflow = "0.17" # Rust bindings for TensorFlow
+tch = "0.5"              # Updated to a newer version
+tensorflow = "0.18"      # Updated to a newer version
 
 # Genetic algorithms
-genetic-algorithm = "0.2"
+genetic-algorithm = "0.3" # Updated to a newer version
 
 # Robotics-related dependencies
-robotics = "0.3"
-rosc = "0.6" # For ROS (Robot Operating System) integration
+robotics = "0.4"          # Updated to a newer version
+rosc = "0.7"              # Updated for better ROS integration
 
 # Async runtime for concurrency
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1.10", features = ["full"] } # Updated to a newer version
 
 # JSON for configuration and serialization
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde_json = "1.0.82"    # Updated to a newer version
 
 # Mathematical computations
-nalgebra = "0.29" # For linear algebra
-num = "0.4"       # Provides a collection of numeric types and traits
-rug = "1.13"      # For arbitrary-precision arithmetic
+nalgebra = "0.30"        # Updated to a newer version for enhanced linear algebra capabilities
+num = "0.4"              # Kept as is; check if a newer version is available
+rug = "1.14"             # Updated for better arbitrary-precision arithmetic support
 
 # Custom library or bindings for Hehner's unified algebra (hypothetical)
-hehners_unified_algebra = "0.1"
+hehners_unified_algebra = "0.2" # Updated; ensure this matches the current version of your custom library
 
 [features]
 default = []
-# Add custom features for conditional compilation if needed
+# Define custom features for conditional compilation here, if needed
 
 [workspace]
-# List other crates in your workspace if part of a larger project
+# Include paths to other crates if this is part of a multi-crate project
 
 # Optional sections: [bin], [build-dependencies], [dev-dependencies], [target.'cfg(...)'.dependencies]
-# can be added for multiple binary targets, build scripts, dev tools, and platform-specific dependencies
+# can be added as per project requirements
