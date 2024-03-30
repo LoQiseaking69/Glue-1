@@ -1,7 +1,7 @@
 '''
 This is a placeholder for 
 the Testing and 
-Debugging Tools component.
+Debugging Tools components.
 '''
 
 # temporary notepad for this lib.
