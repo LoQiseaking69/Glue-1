@@ -3,7 +3,7 @@
 ![GLUE Language Concept](https://github.com/HermiTech-LLC/Glue/blob/main/misc/SephsLang.PNG)
 
 ## Overview
-GLUE, a Rust-based programming language, uniquely combines Norse runes and Hehner's Unified Algebra notation, targeting robotics. Its syntax is a harmonious blend of Julia and Scala aesthetics, optimized for unsupervised evolutionary computation in robotic systems.
+GLUE, a Rust-based programming language, uniquely combines Norse runes, Hehner's Unified Algebra notation, and advanced programming paradigms, targeting robotics. Its syntax is a harmonious blend of Julia, Scala, and functional programming aesthetics, optimized for unsupervised evolutionary computation in robotic systems.
 
 ### Key Syntax Features
 - **Norse Runes Integration**: Utilizes ancient runes for concise, powerful expressions.
@@ -13,26 +13,56 @@ GLUE, a Rust-based programming language, uniquely combines Norse runes and Hehne
 ## Core Components
 
 ### Standard Library
-Robust library tailored for robotics, genetics, and deep learning, with intuitive Norse rune-based syntax:
-```julia
-function ᚠᚢᚦ(ᚱᛟᛒᛟᛏ: Robot) -> Signal {
-    ᚱᛁᚴᛁ(ᚱᛟᛒᛟᛏ.ᚠᛖᛚᚷ) ⊕ ᚠᚱᚢᚦ(ᚱᛟᛒᛟᛏ.ᚷᛖᚢᚱ)
+A robust library tailored for robotics, genetics, and deep learning, with intuitive Norse rune-based syntax and sophisticated module management for AI and genetic algorithms.
+```rust
+pub struct StdLib {
+    // Sophisticated module management for robotics and AI
+    modules: std::sync::RwLock<std::collections::HashMap<std::any::TypeId, std::sync::Arc<dyn Module>>>,
+    // Example Norse rune-based function
+    pub fn rune_function(&self, robot: Robot) -> Signal {
+        // Norse runes and algebraic operations
+        self.get_module::<RobotModule>().map(|mod| mod.perform_action(robot))
+    }
 }
 ```
 
 ### Compiler/Interpreter
-Efficiently compiles GLUE code, blending runes and algebraic symbols into executable machine code:
-```scala
+Efficiently compiles GLUE code, blending runes, algebraic symbols, and modern language constructs into executable machine code, supporting concurrency and advanced language features.
+```rust
 trait GlueCompiler {
-  def ᚱᚢᚾᛖᚲᚢᛗᛈᛁᛚᛖ(sourceCode: String): Executable
+  // Method to compile rune and algebra-based GLUE code
+  def runeCompile(sourceCode: String): Executable = {
+    // Compilation logic leveraging advanced features
+  }
+  // Additional compilation methods for handling complex language constructs
 }
 ```
 
 ### Lexer
-Enhanced lexical analyzer for GLUE, including support for runes, algebraic functions, and other unique features:
+An enhanced lexical analyzer for GLUE, capable of parsing runes, algebraic functions, and complex language constructs.
 ```rust
 use regex::Regex;
 use std::collections::HashMap;
+
+struct Lexer {
+    // Lexer implementation for handling Norse runes and algebra
+    token_patterns: HashMap<String, Regex>,
+    // Method to tokenize GLUE code
+    fn lex(&self, input: &str) -> Vec<Token> {
+        // Lexing logic...
+    }
+}
 ```
 
-GLUE is a revolutionary step in autonomous robotics, bringing ancient wisdom and modern computation into a seamless blend. Its unique syntax and powerful standard library are at the forefront of enabling robots to learn, adapt, and evolve independently.
+### Parser
+A sophisticated parser that transforms GLUE code into an abstract syntax tree, understanding the interplay of runes, algebra, and modern syntax.
+```rust
+struct Parser {
+    // Parser implementation...
+    fn parse(&self, tokens: Vec<Token>) -> AST {
+        // Parsing logic to handle runes and Hehner's algebra
+    }
+}
+```
+
+GLUE is a revolutionary step in autonomous robotics, blending ancient wisdom with modern computational techniques. Its unique syntax, powerful standard library, and sophisticated compilation and analysis tools enable robots to learn, adapt, and evolve independently.
