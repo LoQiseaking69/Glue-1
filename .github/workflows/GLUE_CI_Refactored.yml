@@ -1,0 +1,65 @@
+
+name: Rust CI for GLUE
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Rust toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+        components: clippy, rustfmt
+
+    - name: Cache Rust build
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Check formatting
+      run: cargo fmt --all -- --check
+
+    - name: Lint with clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings
+
+    - name: Build
+      run: cargo build --release
+
+    - name: Run tests
+      run: cargo test --all-features
+
+    # Additional steps for generating and verifying LLVM IR or executable (if needed)
+    - name: Generate LLVM IR
+      run: cargo rustc -- --emit=llvm-ir
+      # Assuming LLVM IR generation is part of the test procedure.
+      
+    - name: Verify LLVM IR
+      run: scripts/verify_ir.sh
+      # Replace 'scripts/verify_ir.sh' with the actual script that verifies the generated IR.
+      
+    # Assuming a custom lexer/parser as part of the build process
+    - name: Tokenize and Parse
+      run: cargo run --bin lexer_parser
+      # Replace '--bin lexer_parser' with the actual binary that performs tokenizing and parsing.
+      
+    # Any post-build steps if necessary
+    - name: Post-Build Steps
+      run: scripts/post_build.sh
+      # Replace 'scripts/post_build.sh' with the actual post-build script if there is one.
