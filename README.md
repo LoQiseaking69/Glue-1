@@ -1,6 +1,6 @@
 # GLUE: Genetic Language for Unsupervised Evolution in Robotics
 
-![GLUE Language Concept](https://github.com/LoQiseaking69/Glue/blob/main/SephsLang.PNG)
+![GLUE Language Concept](https://github.com/HermiTech-LLC/Glue/blob/main/misc/SephsLang.PNG)
 
 ## Overview
 GLUE, a Rust-based programming language, uniquely combines Norse runes and Hehner's Unified Algebra notation, targeting robotics. Its syntax is a harmonious blend of Julia and Scala aesthetics, optimized for unsupervised evolutionary computation in robotic systems.
