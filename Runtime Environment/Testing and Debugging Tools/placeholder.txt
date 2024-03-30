@@ -1,1 +1,6 @@
 This is a placeholder for the Testing and Debugging Tools component.
+'''
+The first debugging and development tool will be the dynamic dreamAssist IDE for glue development and documentation access...
+'''
+
+// <DreamAssist URL>
